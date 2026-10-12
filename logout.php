@@ -1,8 +1,13 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
-    exit;
-}
+// Menghapus semua data session
+$_SESSION = array();
+
+// Menghapus session
+session_destroy();
+
+// Kembali ke halaman login
+header("Location: login.php");
+exit;
 ?>
