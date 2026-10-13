@@ -60,7 +60,7 @@ $hasil = mysqli_query($koneksi, $sql);
                 </li>
                 <li class="nav-item mb-2">
                     <a href="kelola_pelanggaran_kategori.php" class="nav-link text-white">
-                        Kelola Pelanggaran kategori
+                        Pelanggaran Kategori
                     </a>
                 </li>
                 <li class="nav-item mb-2">

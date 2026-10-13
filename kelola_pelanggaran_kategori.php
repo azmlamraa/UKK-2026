@@ -13,7 +13,7 @@ $hasil = mysqli_query($koneksi, $sql);
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Kelola Kategori Pelanggaran</title>
+    <title>Kategori Pelanggaran</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
@@ -63,7 +63,7 @@ $hasil = mysqli_query($koneksi, $sql);
                 </li>
                 <li class="nav-item mb-2">
                     <a href="kelola_pelanggaran_kategori.php" class="nav-link active">
-                        Kelola Pelanggaran kategori
+                        Pelanggaran Kategori
                     </a>
                 </li>
                
