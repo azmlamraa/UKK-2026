@@ -4,7 +4,7 @@ include "config/koneksi.php";
 
 
 $nama = "Azmil Amira";
-$kelas = "XI RPL";
+$kelas = "XII RPL";
 $sekolah = "SMK Muhammadiyah Tasikmalaya";
 $jurusan = "Rekayasa Perangkat Lunak";
 $hobi = "Menyanyi dan Menari";
@@ -16,8 +16,13 @@ $cita_cita = "Multitalenta";
 <head>
     <meta charset="UTF-8">
     <title>Tentang Saya</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
+    <div class="container-fluid">
+    <div class="row">
+        <!-- KONTEN -->
+        <main class="col-md-9 col-lg-10 p-4">
 
     <h2>Tentang Saya</h2>
 
