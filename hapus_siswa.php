@@ -1,23 +1,53 @@
 <?php
 // hapus_siswa.php
-session_start();
 
 include 'includes/cek_session.php';
 include 'config/koneksi.php';
 
-$id = $_GET['id'];
+// Ambil ID siswa dari URL
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
-// Ambil nama siswa sebelum dihapus
-$cek = mysqli_query(
+// Pastikan ID valid
+if ($id <= 0) {
+    header('Location: kelola_siswa.php');
+    exit;
+}
+
+// Cek apakah siswa tersedia
+$stmt = mysqli_prepare(
     $koneksi,
-    "SELECT nama FROM t_siswa WHERE id = '$id'"
+    "SELECT id FROM t_siswa WHERE id = ?"
 );
 
-$data = mysqli_fetch_assoc($cek);
+mysqli_stmt_bind_param($stmt, "i", $id);
+mysqli_stmt_execute($stmt);
+$hasil = mysqli_stmt_get_result($stmt);
+
+if (mysqli_num_rows($hasil) === 0) {
+    mysqli_stmt_close($stmt);
+    header('Location: kelola_siswa.php');
+    exit;
+}
+
+mysqli_stmt_close($stmt);
 
 // Hapus data siswa
-$sql = "DELETE FROM t_siswa WHERE id = '$id'";
+$stmt = mysqli_prepare(
+    $koneksi,
+    "DELETE FROM t_siswa WHERE id = ?"
+);
 
-header('Location: kelola_siswa.php');
+mysqli_stmt_bind_param($stmt, "i", $id);
+
+if (mysqli_stmt_execute($stmt)) {
+    mysqli_stmt_close($stmt);
+    header('Location: kelola_siswa.php?pesan=hapus_berhasil');
+    exit;
+}
+
+mysqli_stmt_close($stmt);
+
+// Jika gagal menghapus, misalnya karena relasi tabel
+header('Location: kelola_siswa.php?pesan=hapus_gagal');
 exit;
 ?>

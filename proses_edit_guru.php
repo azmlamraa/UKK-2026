@@ -10,7 +10,7 @@ $email = $_POST['email'];
 $status_aktif = $_POST['status_aktif'];
 $user_id = $_POST['user_id'];
 
-$sql = "UPDATE tbl_guru SET
+$sql = "UPDATE t_guru SET
         nip = '$nip',
         nama = '$nama',
         email = '$email',
