@@ -162,7 +162,7 @@ $hasil = mysqli_query($koneksi, $sql);
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Jenis Pelanggaran</label>
+                                <label class="form-label">Nama Pelanggaran</label>
                                 <select name="pelanggaran_id"
                                         id="pelanggaran"
                                         class="form-select" required>

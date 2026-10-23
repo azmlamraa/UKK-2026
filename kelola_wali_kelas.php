@@ -70,8 +70,8 @@ $hasil = mysqli_query($koneksi, $sql);
 
                             <thead class="table-dark">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Tahun Ajaran ID</th>
+                                    <th>No</th>
+                                    <th>Tahun Ajaran</th>
                                     <th>Kelas</th>
                                     <th>Guru</th>
                                     <th>Tanggal Mulai</th>

@@ -59,7 +59,7 @@ $hasil = mysqli_query($koneksi, $sql);
 
                             <thead class="table-dark">
                                 <tr>
-                                    <th>ID</th>
+                                    <th>No</th>
                                     <th>NIS</th>
                                     <th>NISN</th>
                                     <th>Nama Siswa</th>

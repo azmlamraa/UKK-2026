@@ -1,149 +1,215 @@
+
 <?php
 // edit_siswa.php
 include 'includes/cek_session.php';
 include 'config/koneksi.php';
 
-$id = $_GET['id'];
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    die("ID siswa tidak valid.");
+}
 
-$sql = "SELECT * FROM t_siswa WHERE id = '$id'";
-$hasil = mysqli_query($koneksi, $sql);
+$id = (int) $_GET['id'];
+
+$stmt = mysqli_prepare($koneksi, "SELECT * FROM t_siswa WHERE id = ?");
+mysqli_stmt_bind_param($stmt, "i", $id);
+mysqli_stmt_execute($stmt);
+
+$hasil = mysqli_stmt_get_result($stmt);
 $data = mysqli_fetch_assoc($hasil);
+
+if (!$data) {
+    die("Data siswa tidak ditemukan.");
+}
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Siswa</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 </head>
 
 <body>
 
-    <h1>Edit Siswa</h1>
+<div class="container-fluid">
+    <div class="row">
 
-    <form action="proses_edit_siswa.php" method="POST">
+        <!-- SIDEBAR -->
+        <?php include 'layout/sidebar.php'; ?>
 
-        <input type="hidden" name="id"
-               value="<?php echo $data['id']; ?>">
+        <!-- KONTEN UTAMA -->
+        <main class="col-md-9 col-lg-10 p-4">
 
-        <table>
+            <h1 class="mb-4">Edit Siswa</h1>
 
-            <tr>
-                <td>NIS</td>
-                <td>:</td>
-                <td>
-                    <input type="text" name="nis"
-                           value="<?php echo $data['nis']; ?>"
-                           required>
-                </td>
-            </tr>
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    Form Edit Siswa
+                </div>
 
-            <tr>
-                <td>NISN</td>
-                <td>:</td>
-                <td>
-                    <input type="text" name="nisn"
-                           value="<?php echo $data['nisn']; ?>"
-                           required>
-                </td>
-            </tr>
+                <div class="card-body">
 
-            <tr>
-                <td>Nama Siswa</td>
-                <td>:</td>
-                <td>
-                    <input type="text" name="nama"
-                           value="<?php echo $data['nama']; ?>"
-                           required>
-                </td>
-            </tr>
+                    <form action="proses_edit_siswa.php"
+                          method="POST"
+                          id="formEditSiswa">
 
-            <tr>
-                <td>Jenis Kelamin</td>
-                <td>:</td>
-                <td>
-                    <select name="jenis_kelamin" required>
+                        <input type="hidden" name="id"
+                               value="<?= htmlspecialchars($data['id']) ?>">
 
-                        <option value="L"
-                            <?php
-                            if ($data['jenis_kelamin'] == 'L')
-                                echo 'selected';
-                            ?>>
-                            Laki-laki
-                        </option>
+                        <div class="mb-3">
+                            <label class="form-label">NIS</label>
+                            <input type="text" name="nis"
+                                   maxlength="10"
+                                   class="form-control"
+                                   value="<?= htmlspecialchars($data['nis']) ?>"
+                                   required>
+                        </div>
 
-                        <option value="P"
-                            <?php
-                            if ($data['jenis_kelamin'] == 'P')
-                                echo 'selected';
-                            ?>>
-                            Perempuan
-                        </option>
+                        <div class="mb-3">
+                            <label class="form-label">NISN</label>
+                            <input type="text" name="nisn"
+                                   maxlength="10"
+                                   class="form-control"
+                                   value="<?= htmlspecialchars($data['nisn']) ?>"
+                                   required>
+                        </div>
 
-                    </select>
-                </td>
-            </tr>
+                        <div class="mb-3">
+                            <label class="form-label">Nama Siswa</label>
+                            <input type="text" name="nama"
+                                   class="form-control"
+                                   value="<?= htmlspecialchars($data['nama']) ?>"
+                                   required>
+                        </div>
 
-            <tr>
-                <td>Tanggal Lahir</td>
-                <td>:</td>
-                <td>
-                    <input type="date" name="tanggal_lahir"
-                           value="<?php echo $data['tanggal_lahir']; ?>"
-                           required>
-                </td>
-            </tr>
+                        <div class="mb-3">
+                            <label class="form-label d-block">Jenis Kelamin</label>
 
-            <tr>
-                <td>Alamat</td>
-                <td>:</td>
-                <td>
-                    <textarea name="alamat"
-                              rows="4"
-                              cols="30"
-                              required><?php echo $data['alamat']; ?></textarea>
-                </td>
-            </tr>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="jenis_kelamin"
+                                       id="laki"
+                                       value="L"
+                                       <?= $data['jenis_kelamin'] == 'L' ? 'checked' : '' ?>
+                                       required>
+                                <label class="form-check-label" for="laki">
+                                    Laki-laki
+                                </label>
+                            </div>
 
-            <tr>
-                <td>Status Aktif</td>
-                <td>:</td>
-                <td>
-                    <select name="status_aktif" required>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="jenis_kelamin"
+                                       id="perempuan"
+                                       value="P"
+                                       <?= $data['jenis_kelamin'] == 'P' ? 'checked' : '' ?>
+                                       required>
+                                <label class="form-check-label" for="perempuan">
+                                    Perempuan
+                                </label>
+                            </div>
+                        </div>
 
-                        <option value="1"
-                            <?php
-                            if ($data['status_aktif'] == 1)
-                                echo 'selected';
-                            ?>>
-                            Aktif
-                        </option>
+                        <div class="mb-3">
+                            <label class="form-label">Tanggal Lahir</label>
+                            <input type="date"
+                                   name="tanggal_lahir"
+                                   class="form-control"
+                                   value="<?= htmlspecialchars($data['tanggal_lahir']) ?>"
+                                   required>
+                        </div>
 
-                        <option value="0"
-                            <?php
-                            if ($data['status_aktif'] == 0)
-                                echo 'selected';
-                            ?>>
-                            Tidak Aktif
-                        </option>
+                        <div class="mb-3">
+                            <label class="form-label">Alamat</label>
+                            <textarea name="alamat"
+                                      class="form-control"
+                                      rows="4"
+                                      required><?= htmlspecialchars($data['alamat']) ?></textarea>
+                        </div>
 
-                    </select>
-                </td>
-            </tr>
+                        <div class="mb-3">
+                            <label class="form-label">Password Baru</label>
+                            <input type="password"
+                                   name="password"
+                                   id="password"
+                                   class="form-control"
+                                   autocomplete="new-password">
+                            <div class="form-text">
+                                Kosongkan jika tidak ingin mengubah password.
+                            </div>
+                        </div>
 
-            <tr>
-                <td colspan="3">
-                    <input type="submit" value="Update">
-                </td>
-            </tr>
+                        <div class="mb-3">
+                            <label class="form-label">Konfirmasi Password</label>
+                            <input type="password"
+                                   name="konfirmasi_password"
+                                   id="konfirmasi_password"
+                                   class="form-control"
+                                   autocomplete="new-password">
+                        </div>
 
-        </table>
+                        <div class="mb-4">
+                            <label class="form-label">Status Aktif</label>
+                            <select name="status_aktif"
+                                    class="form-select"
+                                    required>
+                                <option value="1"
+                                    <?= $data['status_aktif'] == 1 ? 'selected' : '' ?>>
+                                    Aktif
+                                </option>
 
-    </form>
+                                <option value="0"
+                                    <?= $data['status_aktif'] == 0 ? 'selected' : '' ?>>
+                                    Tidak Aktif
+                                </option>
+                            </select>
+                        </div>
 
-    <p>
-        <a href="kelola_siswa.php">Kembali ke Kelola Siswa</a>
-    </p>
+                        <button type="submit" class="btn btn-primary">
+                            Update Siswa
+                        </button>
+
+                        <a href="kelola_siswa.php"
+                           class="btn btn-secondary">
+                            Kembali
+                        </a>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script>
+document.getElementById('formEditSiswa').addEventListener('submit', function(e) {
+    const password = document.getElementById('password').value;
+    const konfirmasi = document.getElementById('konfirmasi_password').value;
+
+    if (password !== konfirmasi) {
+        e.preventDefault();
+        alert('Password dan konfirmasi password tidak sama!');
+        return;
+    }
+
+    if ((password === '') !== (konfirmasi === '')) {
+        e.preventDefault();
+        alert('Isi password dan konfirmasi password, atau kosongkan keduanya.');
+    }
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

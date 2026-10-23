@@ -62,7 +62,7 @@ $hasil = mysqli_query($koneksi, $sql);
 
                             <thead class="table-dark">
                                 <tr>
-                                    <th>ID</th>
+                                    <th>No</th>
                                     <th>Nama Tahun Ajaran</th>
                                     <th>Tanggal Mulai</th>
                                     <th>Tanggal Selesai</th>

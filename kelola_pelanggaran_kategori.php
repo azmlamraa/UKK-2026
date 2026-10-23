@@ -80,7 +80,6 @@ $hasil = mysqli_query($koneksi, $sql);
                             <thead class="table-dark">
                                 <tr>
                                     <th>No</th>
-                                    <th>ID</th>
                                     <th>Nama Kategori</th>
                                     <th>Deskripsi</th>
                                     <th>Status Aktif</th>
