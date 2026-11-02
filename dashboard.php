@@ -131,14 +131,14 @@ if ($role === 'guru') {
 
                     <!-- DATA GURU KHUSUS ADMIN -->
                     <div class="col-md-4 mb-3">
-                        <div class="card shadow-sm border-success h-100">
+                        <div class="card shadow-sm border-primary h-100">
                             <div class="card-body">
                                 <h5 class="card-title">Data Guru</h5>
-                                <h2 class="text-success">
+                                <h2 class="text-primary">
                                     <?= number_format($total_guru); ?>
                                 </h2>
                                 <a href="kelola_guru.php"
-                                   class="btn btn-success btn-sm">
+                                   class="btn btn-primary btn-sm">
                                     Lihat Data Guru
                                 </a>
                             </div>
@@ -147,14 +147,14 @@ if ($role === 'guru') {
 
                     <!-- DATA KELAS KHUSUS ADMIN -->
                     <div class="col-md-4 mb-3">
-                        <div class="card shadow-sm border-warning h-100">
+                        <div class="card shadow-sm border-primary h-100">
                             <div class="card-body">
                                 <h5 class="card-title">Kelas</h5>
-                                <h2 class="text-warning">
+                                <h2 class="text-primary">
                                     <?= number_format($total_kelas); ?>
                                 </h2>
                                 <a href="kelola_kelas.php"
-                                   class="btn btn-warning btn-sm">
+                                   class="btn btn-primary btn-sm">
                                     Lihat Data Kelas
                                 </a>
                             </div>
@@ -162,15 +162,90 @@ if ($role === 'guru') {
                     </div>
                      <!-- DATA KELAS KHUSUS ADMIN -->
                     <div class="col-md-4 mb-3">
-                        <div class="card shadow-sm border-warning h-100">
+                        <div class="card shadow-sm border-primary h-100">
                             <div class="card-body">
-                                <h5 class="card-title">Wali Kelas</h5>
-                                <h2 class="text-warning">
+                                <h5 class="card-title">Tahun Ajaran</h5>
+                                <h2 class="text-primary">
                                     <?= number_format($total_kelas); ?>
                                 </h2>
-                                <a href="kelola_kelas.php"
-                                   class="btn btn-warning btn-sm">
+                                <a href="kelola_tahun_ajaran.php"
+                                   class="btn btn-primary btn-sm">
+                                    Lihat Data Tahun Ajaran
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- DATA KELAS KHUSUS ADMIN -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-sm border-primary h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Wali Kelas</h5>
+                                <h2 class="text-primary">
+                                    <?= number_format($total_kelas); ?>
+                                </h2>
+                                <a href="kelola_wali_kelas.php"
+                                   class="btn btn-primary btn-sm">
                                     Lihat Data Wali Kelas
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- DATA KELAS KHUSUS ADMIN -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-sm border-primary h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Penempatan Siswa</h5>
+                                <h2 class="text-primary">
+                                    <?= number_format($total_kelas); ?>
+                                </h2>
+                                <a href="penempatan_siswa.php"
+                                   class="btn btn-primary btn-sm">
+                                    Lihat Data Penempatan Siswa
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- DATA KELAS KHUSUS ADMIN -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-sm border-primary h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Pelanggaran</h5>
+                                <h2 class="text-primary">
+                                    <?= number_format($total_kelas); ?>
+                                </h2>
+                                <a href="kelola_pelanggaran_kategori.php"
+                                   class="btn btn-primary btn-sm">
+                                    Lihat Data Pelanggaran
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- DATA KELAS KHUSUS ADMIN -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-sm border-primary h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Jenis Pelanggaran</h5>
+                                <h2 class="text-primary">
+                                    <?= number_format($total_kelas); ?>
+                                </h2>
+                                <a href="kelola_jenis_pelanggaran.php"
+                                   class="btn btn-primary btn-sm">
+                                    Lihat Data Jenis Pelanggaran
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- DATA KELAS KHUSUS ADMIN -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-smborder-primary h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Laporan</h5>
+                                <h2 class="text-primary">
+                                    <?= number_format($total_kelas); ?>
+                                </h2>
+                                <a href="laporan.php"
+                                   class="btn btn-primary btn-sm">
+                                    Lihat Data Laporan
                                 </a>
                             </div>
                         </div>
@@ -179,30 +254,7 @@ if ($role === 'guru') {
 
                 <?php endif; ?>
 
-                <!-- TAHUN AJARAN UNTUK ADMIN DAN GURU -->
-                <?php if ($role === 'admin' || $role === 'guru') : ?>
-                    <div class="col-md-4 mb-3">
-                        <div class="card shadow-sm border-info h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">Tahun Ajaran</h5>
-                                <h2 class="text-info">
-                                    <?= number_format($total_tahun); ?>
-                                </h2>
-
-                                <?php if ($role === 'admin') : ?>
-                                    <a href="kelola_tahun_ajaran.php"
-                                       class="btn btn-info btn-sm">
-                                        Lihat Tahun Ajaran
-                                    </a>
-                                <?php else : ?>
-                                    <span class="text-muted">
-                                        Total tahun ajaran
-                                    </span>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
+               
 
                 <?php if ($role === 'guru') : ?>
 

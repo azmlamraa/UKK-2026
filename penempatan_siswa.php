@@ -78,6 +78,10 @@ $hasil = mysqli_query($koneksi, $sql);
         <main class="col-md-9 col-lg-10 p-4">
 
             <h2 class="mb-2">Penempatan Siswa</h2>
+            <p class="text-muted">
+                Kelola penempatan siswa berdasarkan tahun ajaran dan kelas.
+            </p>
+
             <p>
                 <a href="dashboard.php" class="btn btn-secondary btn-sm">
                     Kembali ke Dashboard

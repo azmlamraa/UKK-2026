@@ -2,6 +2,7 @@
 <?php
 // tambah_guru.php
 include 'includes/cek_session.php';
+include 'config/koneksi.php';
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +14,6 @@ include 'includes/cek_session.php';
 
     <title>Tambah Guru</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
           rel="stylesheet">
 </head>
@@ -23,13 +23,18 @@ include 'includes/cek_session.php';
 <div class="container-fluid">
     <div class="row">
 
-        <!-- SIDEBAR -->
         <?php include 'layout/sidebar.php'; ?>
 
-        <!-- KONTEN UTAMA -->
         <main class="col-md-9 col-lg-10 p-4">
 
             <h1 class="mb-4">Tambah Guru</h1>
+
+            <?php if (isset($_SESSION['pesan_error'])) { ?>
+                <div class="alert alert-danger">
+                    <?= htmlspecialchars($_SESSION['pesan_error']); ?>
+                </div>
+                <?php unset($_SESSION['pesan_error']); ?>
+            <?php } ?>
 
             <div class="card shadow-sm">
 
@@ -40,19 +45,17 @@ include 'includes/cek_session.php';
                 <div class="card-body">
 
                     <form action="proses_tambah_guru.php"
-                          method="POST"
-                          id="formTambahGuru">
+                          method="POST">
 
                         <div class="mb-3">
                             <label for="nip" class="form-label">NIP</label>
                             <input type="text"
                                    name="nip"
-                                   maxlength="10"
                                    id="nip"
                                    class="form-control"
+                                   maxlength="10"
                                    required>
                         </div>
-                    
 
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama Guru</label>
@@ -60,6 +63,7 @@ include 'includes/cek_session.php';
                                    name="nama"
                                    id="nama"
                                    class="form-control"
+                                   maxlength="100"
                                    required>
                         </div>
 
@@ -69,10 +73,12 @@ include 'includes/cek_session.php';
                                    name="email"
                                    id="email"
                                    class="form-control"
+                                   maxlength="100"
                                    required>
                         </div>
+
                         <div class="mb-3">
-                            <label class="form-label">Password</label>
+                            <label for="password" class="form-label">Password</label>
                             <input type="password"
                                    name="password"
                                    id="password"
@@ -82,7 +88,9 @@ include 'includes/cek_session.php';
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Konfirmasi Password</label>
+                            <label for="konfirmasi_password" class="form-label">
+                                Konfirmasi Password
+                            </label>
                             <input type="password"
                                    name="konfirmasi_password"
                                    id="konfirmasi_password"
@@ -90,7 +98,6 @@ include 'includes/cek_session.php';
                                    autocomplete="new-password"
                                    required>
                         </div>
-
 
                         <div class="mb-4">
                             <label for="status_aktif" class="form-label">
@@ -101,7 +108,7 @@ include 'includes/cek_session.php';
                                     id="status_aktif"
                                     class="form-select"
                                     required>
-                                <option value="1">Aktif</option>
+                                <option value="1" selected>Aktif</option>
                                 <option value="0">Tidak Aktif</option>
                             </select>
                         </div>
@@ -120,7 +127,6 @@ include 'includes/cek_session.php';
             </div>
 
         </main>
-
     </div>
 </div>
 

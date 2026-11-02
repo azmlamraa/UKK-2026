@@ -1,16 +1,17 @@
+
 <?php
 // tambah_jenis_pelanggaran.php
 include 'includes/cek_session.php';
 include 'config/koneksi.php';
 
+// Ambil data kategori pelanggaran
 $sql_kategori = "SELECT id, nama
                  FROM t_pelanggaran_kategori
-                 WHERE status_aktif = 1
                  ORDER BY nama ASC";
 
-$kategori = mysqli_query($koneksi, $sql_kategori);
+$hasil_kategori = mysqli_query($koneksi, $sql_kategori);
 
-if (!$kategori) {
+if (!$hasil_kategori) {
     die("Gagal mengambil kategori: " .
         htmlspecialchars(mysqli_error($koneksi)));
 }
@@ -22,8 +23,10 @@ if (!$kategori) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Tambah Jenis Pelanggaran</title>
 
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
           rel="stylesheet">
 </head>
@@ -33,39 +36,21 @@ if (!$kategori) {
 <div class="container-fluid">
     <div class="row">
 
-        <!-- Sidebar -->
+        <!-- SIDEBAR -->
         <?php include 'layout/sidebar.php'; ?>
 
-        <!-- Konten Utama -->
+        <!-- KONTEN UTAMA -->
         <main class="col-md-9 col-lg-10 p-4">
 
-            <!-- Judul dan Tombol Kembali -->
-            <div class="mb-4">
-                <h2 class="mb-3">Tambah Jenis Pelanggaran</h2>
+            <h1 class="mb-4">Tambah Jenis Pelanggaran</h1>
 
-                <a href="kelola_jenis_pelanggaran.php"
-                   class="btn btn-secondary">
-                    Kembali ke Jenis Pelanggaran
-                </a>
-            </div>
-
-            <!-- Pesan Error -->
-            <?php if (isset($_SESSION['pesan_error'])): ?>
-                <div class="alert alert-danger alert-dismissible fade show"
-                     role="alert">
-
+            <?php if (isset($_SESSION['pesan_error'])) { ?>
+                <div class="alert alert-danger">
                     <?= htmlspecialchars($_SESSION['pesan_error']); ?>
-
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="alert"
-                            aria-label="Close"></button>
                 </div>
-
                 <?php unset($_SESSION['pesan_error']); ?>
-            <?php endif; ?>
+            <?php } ?>
 
-            <!-- Form Tambah Jenis Pelanggaran -->
             <div class="card shadow-sm">
 
                 <div class="card-header bg-primary text-white">
@@ -75,9 +60,10 @@ if (!$kategori) {
                 <div class="card-body">
 
                     <form action="proses_tambah_jenis_pelanggaran.php"
-                          method="POST">
+                          method="POST"
+                          id="formTambahPelanggaran">
 
-                        <!-- Kategori Pelanggaran -->
+                        <!-- KATEGORI -->
                         <div class="mb-3">
                             <label for="pelanggaran_kategori_id"
                                    class="form-label">
@@ -91,16 +77,16 @@ if (!$kategori) {
 
                                 <option value="">-- Pilih Kategori --</option>
 
-                                <?php while ($kat = mysqli_fetch_assoc($kategori)): ?>
-                                    <option value="<?= (int) $kat['id']; ?>">
-                                        <?= htmlspecialchars($kat['nama']); ?>
+                                <?php while ($kategori = mysqli_fetch_assoc($hasil_kategori)) { ?>
+                                    <option value="<?= (int) $kategori['id']; ?>">
+                                        <?= htmlspecialchars($kategori['nama']); ?>
                                     </option>
-                                <?php endwhile; ?>
+                                <?php } ?>
 
                             </select>
                         </div>
 
-                        <!-- Kode Pelanggaran -->
+                        <!-- KODE -->
                         <div class="mb-3">
                             <label for="kode" class="form-label">
                                 Kode Pelanggaran
@@ -110,12 +96,12 @@ if (!$kategori) {
                                    name="kode"
                                    id="kode"
                                    class="form-control"
-                                   maxlength="30"
+                                   maxlength="20"
                                    placeholder="Contoh: PLG001"
                                    required>
                         </div>
 
-                        <!-- Nama Pelanggaran -->
+                        <!-- NAMA -->
                         <div class="mb-3">
                             <label for="nama" class="form-label">
                                 Nama Pelanggaran
@@ -130,10 +116,10 @@ if (!$kategori) {
                                    required>
                         </div>
 
-                        <!-- Poin -->
+                        <!-- POIN -->
                         <div class="mb-3">
                             <label for="poin" class="form-label">
-                                Poin
+                                Poin Pelanggaran
                             </label>
 
                             <input type="number"
@@ -145,7 +131,7 @@ if (!$kategori) {
                                    required>
                         </div>
 
-                        <!-- Deskripsi -->
+                        <!-- DESKRIPSI -->
                         <div class="mb-3">
                             <label for="deskripsi" class="form-label">
                                 Deskripsi
@@ -158,8 +144,8 @@ if (!$kategori) {
                                       placeholder="Masukkan deskripsi pelanggaran"></textarea>
                         </div>
 
-                        <!-- Status Aktif -->
-                        <div class="mb-3">
+                        <!-- STATUS -->
+                        <div class="mb-4">
                             <label for="status_aktif" class="form-label">
                                 Status Aktif
                             </label>
@@ -169,23 +155,21 @@ if (!$kategori) {
                                     class="form-select"
                                     required>
 
-                                <option value="1">Aktif</option>
+                                <option value="1" selected>Aktif</option>
                                 <option value="0">Tidak Aktif</option>
 
                             </select>
                         </div>
 
-                        <!-- Tombol -->
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                Simpan Jenis Pelanggaran
-                            </button>
+                        <!-- TOMBOL -->
+                        <button type="submit" class="btn btn-primary">
+                            Simpan Pelanggaran
+                        </button>
 
-                            <a href="kelola_jenis_pelanggaran.php"
-                               class="btn btn-secondary">
-                                Batal
-                            </a>
-                        </div>
+                        <a href="kelola_jenis_pelanggaran.php"
+                           class="btn btn-secondary">
+                            Kembali
+                        </a>
 
                     </form>
 

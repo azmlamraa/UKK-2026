@@ -135,26 +135,6 @@ if (!$data) {
                                       required><?= htmlspecialchars($data['alamat']) ?></textarea>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Password Baru</label>
-                            <input type="password"
-                                   name="password"
-                                   id="password"
-                                   class="form-control"
-                                   autocomplete="new-password">
-                            <div class="form-text">
-                                Kosongkan jika tidak ingin mengubah password.
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Konfirmasi Password</label>
-                            <input type="password"
-                                   name="konfirmasi_password"
-                                   id="konfirmasi_password"
-                                   class="form-control"
-                                   autocomplete="new-password">
-                        </div>
 
                         <div class="mb-4">
                             <label class="form-label">Status Aktif</label>
