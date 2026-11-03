@@ -237,7 +237,7 @@ if ($role === 'guru') {
                     </div>
                      <!-- DATA KELAS KHUSUS ADMIN -->
                     <div class="col-md-4 mb-3">
-                        <div class="card shadow-smborder-primary h-100">
+                        <div class="card shadow-sm border-primary h-100">
                             <div class="card-body">
                                 <h5 class="card-title">Laporan</h5>
                                 <h2 class="text-primary">
@@ -260,34 +260,71 @@ if ($role === 'guru') {
 
                     <!-- CATATAN PELANGGARAN KHUSUS GURU -->
                     <div class="col-md-4 mb-3">
-                        <div class="card shadow-sm border-danger h-100">
+                        <div class="card shadow-sm border-primary h-100">
                             <div class="card-body">
                                 <h5 class="card-title">
                                     Catatan Pelanggaran
                                 </h5>
-                                <h2 class="text-danger">
+                                <h2 class="text-primary">
                                     <?= number_format($total_pelanggaran); ?>
                                 </h2>
-                                <a href="tindakan.php"
-                                   class="btn btn-danger btn-sm">
-                                    Lihat Pelanggaran
+                                <a href="catat_pelanggaran.php"
+                                   class="btn btn-primary btn-sm">
+                                    Lihat Catat Pelanggaran
                                 </a>
                             </div>
                         </div>
                     </div>
 
+                     <!-- CATATAN PELANGGARAN KHUSUS GURU -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-sm border-primary h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Tindakan
+                                </h5>
+                                <h2 class="text-primary">
+                                    <?= number_format($total_pelanggaran); ?>
+                                </h2>
+                                <a href="tindakan.php"
+                                   class="btn btn-primary btn-sm">
+                                    Lihat Tindakan
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- CATATAN PELANGGARAN KHUSUS GURU -->
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-sm border-primary h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Riwayat
+                                </h5>
+                                <h2 class="text-primary">
+                                    <?= number_format($total_pelanggaran); ?>
+                                </h2>
+                                <a href="riwayat.php"
+                                   class="btn btn-primary btn-sm">
+                                    Lihat Riwayat
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <!-- TOTAL POIN KHUSUS GURU -->
                     <div class="col-md-4 mb-3">
-                        <div class="card shadow-sm border-secondary h-100">
+                        <div class="card shadow-sm border-primary h-100">
                             <div class="card-body">
                                 <h5 class="card-title">
                                     Total Poin Pelanggaran
                                 </h5>
-                                <h2 class="text-secondary">
+                                <h2 class="text-primary">
                                     <?= number_format($total_poin); ?>
                                 </h2>
                                 <a href="rekap_poin.php"
-                                   class="btn btn-secondary btn-sm">
+                                   class="btn btn-primary btn-sm">
                                     Lihat Rekap Poin
                                 </a>
                             </div>

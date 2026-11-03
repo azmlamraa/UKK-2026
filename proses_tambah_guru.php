@@ -104,7 +104,7 @@ $stmt = mysqli_prepare(
     $koneksi,
     "INSERT INTO t_guru
     (nip, nama, email, password, status_aktif, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, NOW(), NOW())"
+    VALUES (?, ?, ?, ?, ?,?, NOW(), NOW())"
 );
 
 mysqli_stmt_bind_param(
