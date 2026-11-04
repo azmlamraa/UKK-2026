@@ -1,7 +1,75 @@
 
 <?php
 // tambah_kelas.php
+
 include 'includes/cek_session.php';
+include 'config/koneksi.php';
+
+$pesan_error = '';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $nama = trim($_POST['nama'] ?? '');
+    $tingkat = trim($_POST['tingkat'] ?? '');
+    $jurusan = trim($_POST['jurusan'] ?? '');
+    $status_aktif = (int) ($_POST['status_aktif'] ?? 1);
+
+    // Validasi input
+    if ($nama == '' || $tingkat == '' || $jurusan == '') {
+        $pesan_error = "Semua data wajib diisi!";
+    } else {
+
+        // Cek apakah nama kelas sudah ada
+        $cek = mysqli_prepare(
+            $koneksi,
+            "SELECT id FROM t_kelas WHERE nama = ?"
+        );
+
+        mysqli_stmt_bind_param($cek, "s", $nama);
+        mysqli_stmt_execute($cek);
+        $hasil_cek = mysqli_stmt_get_result($cek);
+
+        if (mysqli_num_rows($hasil_cek) > 0) {
+
+            $pesan_error = "Nama kelas sudah terdaftar!";
+
+        } else {
+
+            // Simpan data kelas
+            $sql = "INSERT INTO t_kelas
+                    (nama, tingkat, jurusan, status_aktif)
+                    VALUES (?, ?, ?, ?)";
+
+            $stmt = mysqli_prepare($koneksi, $sql);
+
+            mysqli_stmt_bind_param(
+                $stmt,
+                "sssi",
+                $nama,
+                $tingkat,
+                $jurusan,
+                $status_aktif
+            );
+
+            if (mysqli_stmt_execute($stmt)) {
+
+                $_SESSION['pesan_sukses'] =
+                    "Data kelas berhasil ditambahkan!";
+
+                header("Location: kelola_kelas.php");
+                exit;
+
+            } else {
+
+                $pesan_error = "Gagal menambahkan data kelas!";
+            }
+
+            mysqli_stmt_close($stmt);
+        }
+
+        mysqli_stmt_close($cek);
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +81,6 @@ include 'includes/cek_session.php';
 
     <title>Tambah Kelas</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
           rel="stylesheet">
 </head>
@@ -23,84 +90,96 @@ include 'includes/cek_session.php';
 <div class="container-fluid">
     <div class="row">
 
-        <!-- SIDEBAR -->
         <?php include 'layout/sidebar.php'; ?>
 
-        <!-- KONTEN UTAMA -->
         <main class="col-md-9 col-lg-10 p-4">
 
-            <h1 class="mb-4">Tambah Kelas</h1>
+            <h2 class="mb-4">Tambah Kelas</h2>
 
             <div class="card shadow-sm">
 
-                <div class="card-header bg-primary text-white">
-                    Form Tambah Kelas
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Form Tambah Kelas</h5>
                 </div>
 
                 <div class="card-body">
 
-                    <form action="proses_tambah_kelas.php"
-                          method="POST"
-                          id="formTambahKelas">
+                    <?php if ($pesan_error != '') { ?>
+                        <div class="alert alert-danger">
+                            <?= htmlspecialchars($pesan_error); ?>
+                        </div>
+                    <?php } ?>
+
+                    <form method="POST">
 
                         <div class="mb-3">
-                            <label for="nama" class="form-label">
-                                Nama Kelas
-                            </label>
+                            <label class="form-label">Nama Kelas</label>
 
                             <input type="text"
                                    name="nama"
-                                   id="nama"
                                    class="form-control"
+                                   placeholder="Contoh: XII RPL 1"
+                                   value="<?= htmlspecialchars($_POST['nama'] ?? ''); ?>"
                                    required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="tingkat" class="form-label">
-                                Tingkat
-                            </label>
+                            <label class="form-label">Tingkat</label>
 
-                            <input type="text"
-                                   name="tingkat"
-                                   id="tingkat"
-                                   class="form-control"
-                                   required>
+                            <select name="tingkat" class="form-select" required>
+                                <option value="">-- Pilih Tingkat --</option>
+
+                                <?php foreach (['X', 'XI', 'XII'] as $t) { ?>
+                                    <option value="<?= $t; ?>"
+                                        <?= (($_POST['tingkat'] ?? '') == $t) ? 'selected' : ''; ?>>
+                                        <?= $t; ?>
+                                    </option>
+                                <?php } ?>
+
+                            </select>
                         </div>
 
                         <div class="mb-3">
-                            <label for="jurusan" class="form-label">
-                                Jurusan
-                            </label>
+                            <label class="form-label">Jurusan</label>
 
-                            <input type="text"
-                                   name="jurusan"
-                                   id="jurusan"
-                                   class="form-control"
-                                   required>
+                            <select name="jurusan" class="form-select" required>
+                                <option value="">-- Pilih Jurusan --</option>
+
+                                <?php
+                                $daftar_jurusan = ['RPL', 'TKJ', 'TKR', 'TSM', 'BD'];
+
+                                foreach ($daftar_jurusan as $j) {
+                                ?>
+                                    <option value="<?= $j; ?>"
+                                        <?= (($_POST['jurusan'] ?? '') == $j) ? 'selected' : ''; ?>>
+                                        <?= $j; ?>
+                                    </option>
+                                <?php } ?>
+
+                            </select>
                         </div>
 
-                        <div class="mb-4">
-                            <label for="status_aktif" class="form-label">
-                                Status Aktif
-                            </label>
+                        <div class="mb-3">
+                            <label class="form-label">Status Aktif</label>
 
-                            <select name="status_aktif"
-                                    id="status_aktif"
-                                    class="form-select"
-                                    required>
+                            <select name="status_aktif" class="form-select">
                                 <option value="1">Aktif</option>
                                 <option value="0">Tidak Aktif</option>
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">
-                            Simpan Kelas
-                        </button>
+                        <div class="d-flex gap-2">
 
-                        <a href="kelola_kelas.php"
-                           class="btn btn-secondary">
-                            Kembali
-                        </a>
+                            <button type="submit" class="btn btn-primary">
+                                Simpan
+                            </button>
+
+                            <a href="kelola_kelas.php"
+                               class="btn btn-secondary">
+                                Kembali
+                            </a>
+
+                        </div>
 
                     </form>
 
@@ -108,7 +187,6 @@ include 'includes/cek_session.php';
             </div>
 
         </main>
-
     </div>
 </div>
 

@@ -1,11 +1,17 @@
+
 <?php
 // kelola_kelas.php
 
 include 'includes/cek_session.php';
 include 'config/koneksi.php';
 
+// Mengambil data kelas
 $sql = "SELECT * FROM t_kelas ORDER BY nama ASC";
 $hasil = mysqli_query($koneksi, $sql);
+
+if (!$hasil) {
+    die("Query gagal: " . mysqli_error($koneksi));
+}
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +46,7 @@ $hasil = mysqli_query($koneksi, $sql);
 
             <!-- Tombol Navigasi -->
             <div class="mb-3">
+
                 <a href="dashboard.php" class="btn btn-secondary">
                     Kembali ke Dashboard
                 </a>
@@ -47,24 +54,39 @@ $hasil = mysqli_query($koneksi, $sql);
                 <a href="tambah_kelas.php" class="btn btn-primary">
                     + Tambah Kelas
                 </a>
+
             </div>
 
             <!-- Notifikasi Sukses -->
             <?php if (isset($_SESSION['pesan_sukses'])) { ?>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                <div class="alert alert-success alert-dismissible fade show">
                     <?= htmlspecialchars($_SESSION['pesan_sukses']); ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                    </button>
                 </div>
+
                 <?php unset($_SESSION['pesan_sukses']); ?>
+
             <?php } ?>
 
             <!-- Notifikasi Error -->
             <?php if (isset($_SESSION['pesan_error'])) { ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+                <div class="alert alert-danger alert-dismissible fade show">
                     <?= htmlspecialchars($_SESSION['pesan_error']); ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                    </button>
                 </div>
+
                 <?php unset($_SESSION['pesan_error']); ?>
+
             <?php } ?>
 
             <!-- TABEL KELAS -->
@@ -75,6 +97,7 @@ $hasil = mysqli_query($koneksi, $sql);
                 </div>
 
                 <div class="card-body">
+
                     <div class="table-responsive">
 
                         <table id="tabelKelas"
@@ -94,16 +117,16 @@ $hasil = mysqli_query($koneksi, $sql);
                             </thead>
 
                             <tbody>
+
                                 <?php
                                 $no = 1;
 
-                                if ($hasil && mysqli_num_rows($hasil) > 0) {
-                                    while ($row = mysqli_fetch_assoc($hasil)) {
+                                while ($row = mysqli_fetch_assoc($hasil)) {
                                 ?>
-                                    <tr>
-                                        <td><?= $no++; ?></td>
 
-                                        <td><?= (int) $row['id']; ?></td>
+                                    <tr>
+
+                                        <td><?= $no++; ?></td>
 
                                         <td>
                                             <?= htmlspecialchars($row['nama'] ?? ''); ?>
@@ -119,9 +142,17 @@ $hasil = mysqli_query($koneksi, $sql);
 
                                         <td>
                                             <?php if ($row['status_aktif'] == 1) { ?>
-                                                <span class="badge bg-success">Aktif</span>
+
+                                                <span class="badge bg-success">
+                                                    Aktif
+                                                </span>
+
                                             <?php } else { ?>
-                                                <span class="badge bg-secondary">Tidak Aktif</span>
+
+                                                <span class="badge bg-secondary">
+                                                    Tidak Aktif
+                                                </span>
+
                                             <?php } ?>
                                         </td>
 
@@ -135,6 +166,7 @@ $hasil = mysqli_query($koneksi, $sql);
 
                                         <td>
                                             <div class="d-flex gap-2">
+
                                                 <a href="edit_kelas.php?id=<?= (int) $row['id']; ?>"
                                                    class="btn btn-warning btn-sm">
                                                     Edit
@@ -145,13 +177,14 @@ $hasil = mysqli_query($koneksi, $sql);
                                                    onclick="return confirm('Yakin ingin menghapus data kelas ini?');">
                                                     Hapus
                                                 </a>
+
                                             </div>
                                         </td>
+
                                     </tr>
-                                <?php
-                                    }
-                                }
-                                ?>
+
+                                <?php } ?>
+
                             </tbody>
 
                         </table>
@@ -161,10 +194,11 @@ $hasil = mysqli_query($koneksi, $sql);
             </div>
 
         </main>
+
     </div>
 </div>
 
-<!-- Bootstrap 5 JavaScript -->
+<!-- Bootstrap JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- jQuery -->
@@ -172,12 +206,15 @@ $hasil = mysqli_query($koneksi, $sql);
 
 <!-- DataTables -->
 <script src="https://cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
+
 <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.min.js"></script>
 
 <!-- Konfigurasi DataTables -->
 <script>
 $(document).ready(function () {
+
     $('#tabelKelas').DataTable({
+
         language: {
             search: "Cari:",
             lengthMenu: "Tampilkan _MENU_ data",
@@ -196,20 +233,23 @@ $(document).ready(function () {
         },
 
         pageLength: 10,
+
         lengthMenu: [5, 10, 25, 50, 100],
 
         // Urutkan berdasarkan nama kelas
-        order: [[2, 'asc']],
+        order: [[1, 'asc']],
 
-        // Kolom aksi tidak bisa diurutkan atau dicari
+        // Kolom aksi tidak bisa diurutkan dan dicari
         columnDefs: [
             {
-                targets: 8,
+                targets: 7,
                 orderable: false,
                 searchable: false
             }
         ]
+
     });
+
 });
 </script>
 
