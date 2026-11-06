@@ -70,9 +70,6 @@ $foto = "img/azmil.jpeg";
 
                 <div>
                     <h1 class="fw-bold mb-1">About Me</h1>
-                    <p class="text-muted mb-0">
-                        Kenali saya lebih dekat!
-                    </p>
                 </div>
 
                 <a href="dashboard.php" class="btn btn-secondary mt-2">
