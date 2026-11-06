@@ -160,19 +160,6 @@ if (!$data) {
                                 User ID
                             </label>
 
-                            <input type="number"
-                                   class="form-control"
-                                   id="user_id"
-                                   name="user_id"
-                                   min="1"
-                                   value="<?= htmlspecialchars((string) ($data['user_id'] ?? '')); ?>"
-                                   placeholder="Masukkan User ID jika tersedia">
-
-                            <div class="form-text">
-                                Kosongkan jika guru tidak dikaitkan dengan akun pengguna.
-                            </div>
-                        </div>
-
                         <!-- Tombol -->
                         <div class="d-flex gap-2">
                             <button type="submit" class="btn btn-primary">
