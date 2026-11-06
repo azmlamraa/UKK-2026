@@ -1,4 +1,3 @@
-
 <?php
 // edit_kelas.php
 include 'includes/cek_session.php';
@@ -65,6 +64,7 @@ if (!$data) {
                                name="id"
                                value="<?= htmlspecialchars((string)$data['id']) ?>">
 
+                        <!-- NAMA KELAS -->
                         <div class="mb-3">
                             <label for="nama" class="form-label">
                                 Nama Kelas
@@ -77,33 +77,46 @@ if (!$data) {
                                    value="<?= htmlspecialchars($data['nama'] ?? '') ?>"
                                    required>
                         </div>
+                    <div class="mb-3">
+                            <label class="form-label">Tingkat</label>
 
+                            <select name="tingkat" class="form-select" required>
+                                <option value="">-- Pilih Tingkat --</option>
+
+                                <?php foreach (['X', 'XI', 'XII'] as $t) { ?>
+                                    <option value="<?= $t; ?>"
+                                        <?= (($_POST['tingkat'] ?? '') == $t) ? 'selected' : ''; ?>>
+                                        <?= $t; ?>
+                                    </option>
+                                <?php } ?>
+
+                            </select>
+                        </div>
+                        <!-- JURUSAN -->
                         <div class="mb-3">
-                            <label for="tingkat" class="form-label">
-                                Tingkat
-                            </label>
+                            <label class="form-label">Jurusan</label>
 
-                            <input type="text"
-                                   name="tingkat"
-                                   id="tingkat"
-                                   class="form-control"
-                                   value="<?= htmlspecialchars($data['tingkat'] ?? '') ?>"
-                                   required>
+                            <select name="jurusan" class="form-select" required>
+
+                                <option value="">-- Pilih Jurusan --</option>
+
+                                <?php
+                                $daftar_jurusan = ['RPL', 'TKJ', 'TKR', 'TSM', 'BD'];
+
+                                foreach ($daftar_jurusan as $j) {
+                                ?>
+
+                                    <option value="<?= $j ?>"
+                                        <?= ($data['jurusan'] == $j) ? 'selected' : '' ?>>
+                                        <?= $j ?>
+                                    </option>
+
+                                <?php } ?>
+
+                            </select>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="jurusan" class="form-label">
-                                Jurusan
-                            </label>
-
-                            <input type="text"
-                                   name="jurusan"
-                                   id="jurusan"
-                                   class="form-control"
-                                   value="<?= htmlspecialchars($data['jurusan'] ?? '') ?>"
-                                   required>
-                        </div>
-
+                        <!-- STATUS AKTIF -->
                         <div class="mb-4">
                             <label for="status_aktif" class="form-label">
                                 Status Aktif
@@ -127,14 +140,20 @@ if (!$data) {
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">
-                            Update Kelas
-                        </button>
+                        <!-- TOMBOL -->
+                        <div class="d-flex justify-content-start gap-2">
 
-                        <a href="kelola_kelas.php"
-                           class="btn btn-secondary">
-                            Kembali
-                        </a>
+                            <button type="submit"
+                                    class="btn btn-primary btn-sm w-auto">
+                                Update Kelas
+                            </button>
+
+                            <a href="kelola_kelas.php"
+                               class="btn btn-secondary btn-sm w-auto">
+                                Kembali
+                            </a>
+
+                        </div>
 
                     </form>
 

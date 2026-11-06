@@ -10,6 +10,7 @@ $sekolah = "SMK Muhammadiyah Tasikmalaya";
 $jurusan = "Rekayasa Perangkat Lunak";
 $hobi = "Menyanyi, Menari, Baca Novel";
 $cita_cita = "Multitalenta";
+$foto = "img/azmil.jpeg";
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +94,7 @@ $cita_cita = "Multitalenta";
                     <!-- FOTO PROFIL -->
                     <div class="text-center mb-4">
 
-                        <img src="img/haechan.jpg"
+                        <img src="img/azmil.jpeg"
                              alt="Foto profil Azmil Amira"
                              class="rounded-circle foto-profil mb-3">
 

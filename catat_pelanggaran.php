@@ -83,6 +83,7 @@ $hasil = mysqli_query($koneksi, $sql);
     <div class="row">
         <?php include 'layout/sidebar.php'; ?>
 
+        
         <main class="col-md-9 col-lg-10 p-4">
 
             <h2 class="mb-4">Catat Pelanggaran Siswa</h2>
@@ -162,7 +163,7 @@ $hasil = mysqli_query($koneksi, $sql);
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Nama Pelanggaran</label>
+                                <label class="form-label">Jenis Pelanggaran</label>
                                 <select name="pelanggaran_id"
                                         id="pelanggaran"
                                         class="form-select" required>
@@ -269,11 +270,13 @@ $hasil = mysqli_query($koneksi, $sql);
                                     <th>Kelas</th>
                                     <th>Tahun Ajaran</th>
                                     <th>Pelanggaran</th>
+                                    <th>Keterangan</th>
                                     <th>Guru</th>
                                     <th>Tanggal</th>
                                     <th>Poin</th>
                                     <th>Tindakan</th>
                                     <th>Status</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
 
@@ -286,11 +289,24 @@ $hasil = mysqli_query($koneksi, $sql);
                                     <td><?php echo htmlspecialchars($row['nama_kelas']); ?></td>
                                     <td><?php echo htmlspecialchars($row['tahun_ajaran']); ?></td>
                                     <td><?php echo htmlspecialchars($row['nama_pelanggaran']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['keterangan']); ?></td>
                                     <td><?php echo htmlspecialchars($row['nama_guru']); ?></td>
                                     <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
                                     <td><?php echo (int) $row['poin']; ?></td>
                                     <td><?php echo htmlspecialchars($row['tindakan']); ?></td>
                                     <td><?php echo htmlspecialchars($row['status']); ?></td>
+                                    <td>
+                                        <a href="edit_catat_pelanggaran.php?id=<?php echo $row['id']; ?>"
+                                        class="btn btn-warning btn-sm">
+                                            Edit
+                                        </a>
+
+                                        <a href="hapus_catat_pelanggaran.php?id=<?php echo $row['id']; ?>"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Yakin ingin menghapus pelanggaran ini?')">
+                                            Hapus
+                                        </a>
+                                    </td>
                                 </tr>
                             <?php } ?>
                             </tbody>
