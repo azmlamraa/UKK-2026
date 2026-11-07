@@ -154,12 +154,6 @@ if (!$data) {
                             </select>
                         </div>
 
-                        <!-- User ID -->
-                        <div class="mb-3">
-                            <label for="user_id" class="form-label">
-                                User ID
-                            </label>
-
                         <!-- Tombol -->
                         <div class="d-flex gap-2">
                             <button type="submit" class="btn btn-primary">

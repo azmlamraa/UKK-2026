@@ -53,7 +53,7 @@ include 'config/koneksi.php';
                                    name="nip"
                                    id="nip"
                                    class="form-control"
-                                   maxlength="10"
+                                   maxlength="18"
                                    required>
                         </div>
 
