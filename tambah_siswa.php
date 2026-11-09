@@ -48,6 +48,7 @@ include 'includes/cek_session.php';
                             <input type="text"
                                    name="nis"
                                    maxlength="10"
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                    class="form-control"
                                    required>
                         </div>
@@ -57,6 +58,7 @@ include 'includes/cek_session.php';
                             <input type="text"
                                    name="nisn"
                                    maxlength="10"
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                    class="form-control"
                                    required>
                         </div>

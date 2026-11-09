@@ -47,15 +47,16 @@ include 'config/koneksi.php';
                     <form action="proses_tambah_guru.php"
                           method="POST">
 
-                        <div class="mb-3">
-                            <label for="nip" class="form-label">NIP</label>
-                            <input type="text"
-                                   name="nip"
-                                   id="nip"
-                                   class="form-control"
-                                   maxlength="18"
-                                   required>
-                        </div>
+                       <div class="mb-3">
+                       <label for="nip" class="form-label">NIP</label>
+                       <input type="text"
+                              name="nip"
+                              id="nip"
+                              class="form-control"
+                              maxlength="18"
+                              oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                              required>
+                       </div>
 
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama Guru</label>

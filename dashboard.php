@@ -241,7 +241,6 @@ if ($role === 'guru') {
                             </div>
                         </div>
                     </div>
-
                 <?php endif; ?>
 
                 <?php if ($role !== 'admin' && $role !== 'guru') : ?>
