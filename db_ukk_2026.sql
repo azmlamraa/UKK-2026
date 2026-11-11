@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 07 Nov 2026 pada 06.50
+-- Waktu pembuatan: 06 Nov 2026 pada 05.35
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -70,7 +70,7 @@ INSERT INTO `t_guru` (`id`, `nip`, `nama`, `email`, `status_aktif`, `user_id`, `
 (25, '198903052014122828', 'Asep Taufiq Hidayat, S.Kom', 'asep.taufiq.hidayat@gmail.com', 1, 26, '2026-07-01 01:00:00', '2026-07-01 01:00:00'),
 (26, '197209262011121982', 'Rendy Ichsan Kusumah, S.T', 'rendy.ichsan.kusumah@gmail.com', 1, 27, '2026-07-01 01:00:00', '2026-07-01 01:00:00'),
 (27, '197107032006102957', 'Feri Rahmawan, S.Pd', 'feri.rahmawan@gmail.com', 1, 28, '2026-07-01 01:00:00', '2026-07-01 01:00:00'),
-(28, '199201012021122700', 'Ari Sandriana, S.Kom', 'ari.sandriana@gmail.com', 1, 29, '2026-07-01 01:00:00', '2026-11-07 05:34:39'),
+(28, '199201012021122700', 'Ari Sandriana, S.Kom', 'ari.sandriana@gmail.com', 1, 29, '2026-07-01 01:00:00', '2026-11-06 02:09:36'),
 (29, '197708112008122586', 'Yaneu Nurdian, S.Pd, M.Pd', 'yaneu.nurdian@gmail.com', 1, 30, '2026-07-01 01:00:00', '2026-07-01 01:00:00'),
 (30, '198703052021032639', 'Ucu Muhammad Khoer N, S.Pd', 'ucu.muhammad.khoer.n@gmail.com', 1, 31, '2026-07-01 01:00:00', '2026-07-01 01:00:00'),
 (31, '197808202012012035', 'Mira Dwi Rahmawati, S.Ag', 'mira.dwi.rahmawati@gmail.com', 1, 32, '2026-07-01 01:00:00', '2026-07-01 01:00:00'),
@@ -401,7 +401,7 @@ CREATE TABLE `t_tahun_ajaran` (
 --
 
 INSERT INTO `t_tahun_ajaran` (`id`, `nama`, `tanggal_mulai`, `tanggal_selesai`, `status_aktif`, `created_at`, `updated_at`) VALUES
-(1, '2025/2026', '2025-07-01', '2026-06-30', 0, '2026-07-01 01:00:00', '2026-11-07 05:37:51'),
+(1, '2025/2026', '2025-07-01', '2026-06-30', 0, '2026-07-01 01:00:00', '2026-11-06 02:02:49'),
 (2, '2026/2027', '2026-07-01', '2027-06-30', 1, '2026-07-01 01:00:00', '2026-11-06 02:04:04');
 
 -- --------------------------------------------------------

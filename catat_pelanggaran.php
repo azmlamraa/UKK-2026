@@ -1,4 +1,3 @@
-
 <?php
 // catat_pelanggaran.php
 
@@ -578,20 +577,28 @@ $hasil = mysqli_query($koneksi, $sql);
 
                                         <td>
 
-                                            <a href="edit_catat_pelanggaran.php?id=<?php echo $row['id']; ?>"
-                                               class="btn btn-warning btn-sm">
+                                            <?php if ($row['status'] !== 'Selesai') { ?>
 
-                                                Edit
+                                                <a href="edit_catat_pelanggaran.php?id=<?php echo $row['id']; ?>"
+                                                class="btn btn-warning btn-sm">
 
-                                            </a>
+                                                    Edit
 
-                                            <a href="hapus_pelanggaran.php?id=<?php echo $row['id']; ?>"
-                                               class="btn btn-danger btn-sm"
-                                               onclick="return confirm('Yakin ingin menghapus pelanggaran ini?')">
+                                                </a>
 
-                                                Hapus
+                                                <a href="hapus_pelanggaran.php?id=<?php echo $row['id']; ?>"
+                                                class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Yakin ingin menghapus pelanggaran ini?')">
 
-                                            </a>
+                                                    Hapus
+
+                                                </a>
+
+                                            <?php } else { ?>
+
+                                                <span class="text-muted">Tidak ada aksi</span>
+
+                                            <?php } ?>
 
                                         </td>
 
