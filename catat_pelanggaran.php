@@ -98,51 +98,41 @@ $hasil = mysqli_query($koneksi, $sql);
 
     <style>
 
-        /* ====================================
-           PEMBUNGKUS PENCARIAN
-        ==================================== */
+        /* PEMBUNGKUS PENCARIAN */
 
         .pencarian-wrapper {
             position: relative;
             width: 100%;
         }
 
-        /* ====================================
-           HASIL PENCARIAN
-        ==================================== */
+        /* HASIL PENCARIAN */
 
+        #hasilSiswa,
         #hasilPelanggaran {
             position: absolute;
             top: 100%;
             left: 0;
             width: 100%;
-
             z-index: 9999;
-
             max-height: 180px;
             overflow-y: auto;
-
             display: none;
-
             background-color: white;
-
             border: 1px solid #dee2e6;
             border-radius: 5px;
-
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
 
+        #hasilSiswa .list-group-item,
         #hasilPelanggaran .list-group-item {
             cursor: pointer;
         }
 
-        /* ====================================
-           RUANG INFORMASI POIN
-           AGAR FORM TIDAK BERGESER
-        ==================================== */
+        /* RUANG INFORMASI */
 
         #infoPoin,
-        #pesanPencarian {
+        #pesanPencarian,
+        #pesanSiswa {
             min-height: 18px;
         }
 
@@ -177,7 +167,6 @@ $hasil = mysqli_query($koneksi, $sql);
 
             <?php } ?>
 
-
             <!-- PESAN ERROR -->
 
             <?php if (isset($_SESSION['pesan_error'])) { ?>
@@ -193,14 +182,11 @@ $hasil = mysqli_query($koneksi, $sql);
 
             <?php } ?>
 
-
-            <!-- ====================================
-                 FORM CATAT PELANGGARAN
-            ==================================== -->
+            <!-- FORM CATAT PELANGGARAN -->
 
             <div class="card mb-4">
 
-                <div class="card-header">
+                <div class="card-header bg-primary text-light">
                     Form Catat Pelanggaran
                 </div>
 
@@ -212,9 +198,7 @@ $hasil = mysqli_query($koneksi, $sql);
 
                         <div class="row">
 
-                            <!-- ====================================
-                                 KELAS
-                            ==================================== -->
+                            <!-- KELAS -->
 
                             <div class="col-md-6 mb-3">
 
@@ -251,10 +235,7 @@ $hasil = mysqli_query($koneksi, $sql);
 
                             </div>
 
-
-                            <!-- ====================================
-                                 NAMA SISWA
-                            ==================================== -->
+                            <!-- NAMA SISWA -->
 
                             <div class="col-md-6 mb-3">
 
@@ -262,40 +243,51 @@ $hasil = mysqli_query($koneksi, $sql);
                                     Nama Siswa
                                 </label>
 
-                                <select name="siswa_id"
-                                        id="siswa"
-                                        class="form-select"
-                                        required
-                                        disabled>
+                                <div class="pencarian-wrapper">
 
-                                    <option value="">
-                                        -- Pilih Kelas Terlebih Dahulu --
-                                    </option>
+                                    <input type="text"
+                                           id="cariSiswa"
+                                           class="form-control"
+                                           placeholder="Pilih kelas terlebih dahulu..."
+                                           autocomplete="off"
+                                           disabled>
 
-                                    <?php while ($s = mysqli_fetch_assoc($siswa)) { ?>
+                                    <input type="hidden"
+                                           name="siswa_id"
+                                           id="siswa">
 
-                                        <option
-                                            value="<?php echo $s['id']; ?>"
-                                            data-kelas="<?php echo $s['kelas_id']; ?>">
+                                    <div id="hasilSiswa"
+                                         class="list-group">
 
-                                            <?php
-                                            echo htmlspecialchars(
-                                                $s['nis'] . ' - ' . $s['nama']
-                                            );
-                                            ?>
+                                        <?php while ($s = mysqli_fetch_assoc($siswa)) { ?>
 
-                                        </option>
+                                            <button type="button"
+                                                    class="list-group-item list-group-item-action pilihan-siswa"
+                                                    data-id="<?php echo $s['id']; ?>"
+                                                    data-kelas="<?php echo $s['kelas_id']; ?>"
+                                                    data-nis="<?php echo htmlspecialchars($s['nis'], ENT_QUOTES); ?>"
+                                                    data-nama="<?php echo htmlspecialchars($s['nama'], ENT_QUOTES); ?>">
 
-                                    <?php } ?>
+                                                <?php
+                                                echo htmlspecialchars(
+                                                    $s['nis'] . ' - ' . $s['nama']
+                                                );
+                                                ?>
 
-                                </select>
+                                            </button>
+
+                                        <?php } ?>
+
+                                    </div>
+
+                                </div>
+
+                                <small id="pesanSiswa"
+                                       class="text-danger d-block mt-1"></small>
 
                             </div>
 
-
-                            <!-- ====================================
-                                 TAHUN AJARAN
-                            ==================================== -->
+                            <!-- TAHUN AJARAN -->
 
                             <div class="col-md-6 mb-3">
 
@@ -325,10 +317,7 @@ $hasil = mysqli_query($koneksi, $sql);
 
                             </div>
 
-
-                            <!-- ====================================
-                                 JENIS PELANGGARAN
-                            ==================================== -->
+                            <!-- JENIS PELANGGARAN -->
 
                             <div class="col-md-6 mb-3">
 
@@ -336,11 +325,7 @@ $hasil = mysqli_query($koneksi, $sql);
                                     Jenis Pelanggaran
                                 </label>
 
-                                <!-- PEMBUNGKUS PENCARIAN -->
-
                                 <div class="pencarian-wrapper">
-
-                                    <!-- INPUT PENCARIAN -->
 
                                     <input type="text"
                                            id="cariPelanggaran"
@@ -349,25 +334,17 @@ $hasil = mysqli_query($koneksi, $sql);
                                            autocomplete="off"
                                            required>
 
-                                    <!-- ID PELANGGARAN -->
-
                                     <input type="hidden"
                                            name="pelanggaran_id"
                                            id="pelanggaran">
-
-                                    <!-- ID KATEGORI -->
 
                                     <input type="hidden"
                                            name="pelanggaran_kategori_id"
                                            id="kategori">
 
-                                    <!-- POIN -->
-
                                     <input type="hidden"
                                            name="poin"
                                            id="poin">
-
-                                    <!-- HASIL PENCARIAN -->
 
                                     <div id="hasilPelanggaran"
                                          class="list-group">
@@ -393,23 +370,15 @@ $hasil = mysqli_query($koneksi, $sql);
 
                                 </div>
 
-
-                                <!-- INFORMASI POIN -->
-
                                 <small id="infoPoin"
                                        class="text-success d-block mt-2"></small>
-
-                                <!-- PESAN PENCARIAN -->
 
                                 <small id="pesanPencarian"
                                        class="text-danger d-block"></small>
 
                             </div>
 
-
-                            <!-- ====================================
-                                 TANGGAL
-                            ==================================== -->
+                            <!-- TANGGAL -->
 
                             <div class="col-md-6 mb-3">
 
@@ -425,10 +394,7 @@ $hasil = mysqli_query($koneksi, $sql);
 
                             </div>
 
-
-                            <!-- ====================================
-                                 STATUS
-                            ==================================== -->
+                            <!-- STATUS -->
 
                             <div class="col-md-6 mb-3">
 
@@ -456,10 +422,7 @@ $hasil = mysqli_query($koneksi, $sql);
 
                             </div>
 
-
-                            <!-- ====================================
-                                 KETERANGAN
-                            ==================================== -->
+                            <!-- KETERANGAN -->
 
                             <div class="col-md-6 mb-3">
 
@@ -475,7 +438,6 @@ $hasil = mysqli_query($koneksi, $sql);
 
                         </div>
 
-
                         <!-- TOMBOL SIMPAN -->
 
                         <button type="submit"
@@ -485,7 +447,6 @@ $hasil = mysqli_query($koneksi, $sql);
                             Simpan Pelanggaran
 
                         </button>
-
 
                         <!-- TOMBOL KEMBALI -->
 
@@ -502,10 +463,7 @@ $hasil = mysqli_query($koneksi, $sql);
 
             </div>
 
-
-            <!-- ====================================
-                 DATA CATATAN PELANGGARAN
-            ==================================== -->
+            <!-- DATA CATATAN PELANGGARAN -->
 
             <div class="card">
 
@@ -580,15 +538,15 @@ $hasil = mysqli_query($koneksi, $sql);
                                             <?php if ($row['status'] !== 'Selesai') { ?>
 
                                                 <a href="edit_catat_pelanggaran.php?id=<?php echo $row['id']; ?>"
-                                                class="btn btn-warning btn-sm">
+                                                   class="btn btn-warning btn-sm">
 
                                                     Edit
 
                                                 </a>
 
                                                 <a href="hapus_pelanggaran.php?id=<?php echo $row['id']; ?>"
-                                                class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Yakin ingin menghapus pelanggaran ini?')">
+                                                   class="btn btn-danger btn-sm"
+                                                   onclick="return confirm('Yakin ingin menghapus pelanggaran ini?')">
 
                                                     Hapus
 
@@ -596,7 +554,9 @@ $hasil = mysqli_query($koneksi, $sql);
 
                                             <?php } else { ?>
 
-                                                <span class="text-muted">Tidak ada aksi</span>
+                                                <span class="text-muted">
+                                                    Tidak ada aksi
+                                                </span>
 
                                             <?php } ?>
 
@@ -622,46 +582,176 @@ $hasil = mysqli_query($koneksi, $sql);
 
 </div>
 
-
-<!-- ====================================
-     JAVASCRIPT
-==================================== -->
+<!-- JAVASCRIPT -->
 
 <script>
 
 // ====================================
-// FILTER SISWA BERDASARKAN KELAS
+// PENCARIAN SISWA
 // ====================================
 
 const pilihanKelas = document.getElementById('kelas');
-const pilihanSiswa = document.getElementById('siswa');
+const cariSiswa = document.getElementById('cariSiswa');
+const inputSiswa = document.getElementById('siswa');
+const hasilSiswa = document.getElementById('hasilSiswa');
+const pesanSiswa = document.getElementById('pesanSiswa');
 
-const semuaSiswa = Array.from(pilihanSiswa.options);
+const semuaSiswa = Array.from(
+    document.querySelectorAll('.pilihan-siswa')
+);
+
+
+// PILIH KELAS
 
 pilihanKelas.addEventListener('change', function () {
 
-    const kelasDipilih = this.value;
+    cariSiswa.value = '';
+    inputSiswa.value = '';
 
-    pilihanSiswa.value = '';
-    pilihanSiswa.disabled = !kelasDipilih;
+    hasilSiswa.style.display = 'none';
+    pesanSiswa.textContent = '';
 
-    semuaSiswa.forEach(function (opsi, index) {
+    cariSiswa.disabled = !this.value;
 
-        if (index === 0) {
+    cariSiswa.placeholder = this.value
+        ? 'Cari NIS atau nama siswa...'
+        : 'Pilih kelas terlebih dahulu...';
 
-            opsi.hidden = false;
+});
 
-            opsi.textContent = kelasDipilih
-                ? '-- Pilih Siswa --'
-                : '-- Pilih Kelas Terlebih Dahulu --';
 
-            return;
+// PENCARIAN BERDASARKAN NIS ATAU NAMA
+
+cariSiswa.addEventListener('input', function () {
+
+    const kataKunci = this.value.toLowerCase().trim();
+    const kelasDipilih = pilihanKelas.value;
+
+    inputSiswa.value = '';
+    pesanSiswa.textContent = '';
+
+    if (kataKunci === '' || kelasDipilih === '') {
+
+        hasilSiswa.style.display = 'none';
+
+        return;
+
+    }
+
+    let jumlahHasil = 0;
+
+    semuaSiswa.forEach(function (item) {
+
+        const nis = item.dataset.nis.toLowerCase();
+        const nama = item.dataset.nama.toLowerCase();
+
+        const sesuaiKelas = item.dataset.kelas === kelasDipilih;
+
+        const sesuaiPencarian =
+            nis.includes(kataKunci) ||
+            nama.includes(kataKunci);
+
+        if (sesuaiKelas && sesuaiPencarian) {
+
+            item.style.display = 'block';
+            jumlahHasil++;
+
+        } else {
+
+            item.style.display = 'none';
 
         }
 
-        opsi.hidden = opsi.dataset.kelas !== kelasDipilih;
+    });
+
+    hasilSiswa.style.display = 'block';
+
+    if (jumlahHasil === 0) {
+
+        pesanSiswa.textContent = 'Siswa tidak ditemukan.';
+
+    }
+
+});
+
+
+// MEMILIH SISWA
+
+hasilSiswa.addEventListener('click', function (e) {
+
+    const item = e.target.closest('.pilihan-siswa');
+
+    if (!item) {
+        return;
+    }
+
+    cariSiswa.value =
+        item.dataset.nis + ' - ' + item.dataset.nama;
+
+    inputSiswa.value = item.dataset.id;
+
+    hasilSiswa.style.display = 'none';
+
+    pesanSiswa.textContent = '';
+
+});
+
+
+// TAMPILKAN HASIL SAAT INPUT DIKLIK
+
+cariSiswa.addEventListener('focus', function () {
+
+    const kataKunci = this.value.toLowerCase().trim();
+    const kelasDipilih = pilihanKelas.value;
+
+    if (kataKunci === '' || kelasDipilih === '') {
+        return;
+    }
+
+    let jumlahHasil = 0;
+
+    semuaSiswa.forEach(function (item) {
+
+        const nis = item.dataset.nis.toLowerCase();
+        const nama = item.dataset.nama.toLowerCase();
+
+        const sesuaiKelas = item.dataset.kelas === kelasDipilih;
+
+        const sesuaiPencarian =
+            nis.includes(kataKunci) ||
+            nama.includes(kataKunci);
+
+        if (sesuaiKelas && sesuaiPencarian) {
+
+            item.style.display = 'block';
+            jumlahHasil++;
+
+        } else {
+
+            item.style.display = 'none';
+
+        }
 
     });
+
+    hasilSiswa.style.display =
+        jumlahHasil > 0 ? 'block' : 'none';
+
+});
+
+
+// SEMBUNYIKAN HASIL JIKA KLIK DI LUAR
+
+document.addEventListener('click', function (e) {
+
+    if (
+        !e.target.closest('#cariSiswa') &&
+        !e.target.closest('#hasilSiswa')
+    ) {
+
+        hasilSiswa.style.display = 'none';
+
+    }
 
 });
 
@@ -689,15 +779,11 @@ const semuaPelanggaran = Array.from(
 );
 
 
-// ====================================
 // PROSES PENCARIAN
-// ====================================
 
 cariPelanggaran.addEventListener('input', function () {
 
     const kataKunci = this.value.toLowerCase().trim();
-
-    // Kosongkan pilihan sebelumnya
 
     inputPelanggaran.value = '';
     inputKategori.value = '';
@@ -705,8 +791,6 @@ cariPelanggaran.addEventListener('input', function () {
 
     infoPoin.textContent = '';
     pesanPencarian.textContent = '';
-
-    // Jika pencarian kosong
 
     if (kataKunci === '') {
 
@@ -724,8 +808,6 @@ cariPelanggaran.addEventListener('input', function () {
 
     let jumlahHasil = 0;
 
-    // Cari nama pelanggaran
-
     semuaPelanggaran.forEach(function (item) {
 
         const nama = item.dataset.nama.toLowerCase();
@@ -733,7 +815,6 @@ cariPelanggaran.addEventListener('input', function () {
         if (nama.includes(kataKunci)) {
 
             item.style.display = 'block';
-
             jumlahHasil++;
 
         } else {
@@ -743,8 +824,6 @@ cariPelanggaran.addEventListener('input', function () {
         }
 
     });
-
-    // Tampilkan daftar tanpa menggeser form
 
     hasilPelanggaran.style.display = 'block';
 
@@ -758,9 +837,7 @@ cariPelanggaran.addEventListener('input', function () {
 });
 
 
-// ====================================
 // MEMILIH JENIS PELANGGARAN
-// ====================================
 
 hasilPelanggaran.addEventListener('click', function (e) {
 
@@ -770,39 +847,25 @@ hasilPelanggaran.addEventListener('click', function (e) {
         return;
     }
 
-    // Isi nama pelanggaran
-
     cariPelanggaran.value = item.dataset.nama;
-
-    // Isi ID pelanggaran
 
     inputPelanggaran.value = item.dataset.id;
 
-    // Isi kategori
-
     inputKategori.value = item.dataset.kategori;
 
-    // Isi poin otomatis
-
     inputPoin.value = item.dataset.poin;
-
-    // Tampilkan informasi poin
 
     infoPoin.textContent =
         'Poin pelanggaran: ' + item.dataset.poin + ' poin';
 
     pesanPencarian.textContent = '';
 
-    // Sembunyikan daftar pencarian
-
     hasilPelanggaran.style.display = 'none';
 
 });
 
 
-// ====================================
 // TAMPILKAN HASIL SAAT INPUT DIKLIK
-// ====================================
 
 cariPelanggaran.addEventListener('focus', function () {
 
@@ -848,15 +911,11 @@ cariPelanggaran.addEventListener('focus', function () {
 });
 
 
-// ====================================
 // SEMBUNYIKAN HASIL JIKA KLIK DI LUAR
-// ====================================
 
 document.addEventListener('click', function (e) {
 
-    if (
-        !e.target.closest('.pencarian-wrapper')
-    ) {
+    if (!e.target.closest('.pencarian-wrapper')) {
 
         hasilPelanggaran.style.display = 'none';
 
@@ -865,12 +924,22 @@ document.addEventListener('click', function (e) {
 });
 
 
-// ====================================
 // VALIDASI SEBELUM MENYIMPAN
-// ====================================
 
 document.getElementById('formPelanggaran')
     .addEventListener('submit', function (e) {
+
+        if (!inputSiswa.value) {
+
+            e.preventDefault();
+
+            alert('Silakan cari dan pilih siswa terlebih dahulu.');
+
+            cariSiswa.focus();
+
+            return;
+
+        }
 
         if (!inputPelanggaran.value) {
 
