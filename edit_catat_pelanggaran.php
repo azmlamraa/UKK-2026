@@ -197,24 +197,7 @@ function e($nilai) {
                                        value="<?php echo (int)$data['pelanggaran_kategori_id']; ?>">
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Guru Pelapor</label>
-
-                                <select name="guru_id"
-                                        class="form-select" required>
-
-                                    <?php while ($g = mysqli_fetch_assoc($guru)) { ?>
-                                        <option value="<?php echo $g['id']; ?>"
-                                            <?php echo $data['guru_id'] == $g['id'] ? 'selected' : ''; ?>>
-
-                                            <?php echo e($g['nama']); ?>
-
-                                        </option>
-                                    <?php } ?>
-
-                                </select>
-                            </div>
-
+                           
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Tanggal</label>
 
@@ -225,17 +208,6 @@ function e($nilai) {
                                        required>
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Poin Pelanggaran</label>
-
-                                <input type="number"
-                                       name="poin"
-                                       id="poin"
-                                       class="form-control"
-                                       min="0"
-                                       value="<?php echo (int)$data['poin']; ?>"
-                                       required>
-                            </div>
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Status</label>
@@ -269,14 +241,6 @@ function e($nilai) {
                                 <textarea name="keterangan"
                                           class="form-control"
                                           rows="3"><?php echo e($data['keterangan']); ?></textarea>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Tindakan</label>
-
-                                <textarea name="tindakan"
-                                          class="form-control"
-                                          rows="3"><?php echo e($data['tindakan']); ?></textarea>
                             </div>
 
                         </div>

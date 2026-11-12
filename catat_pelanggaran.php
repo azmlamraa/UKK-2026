@@ -209,6 +209,7 @@ $hasil = mysqli_query($koneksi, $sql);
                                 <select name="kelas_id"
                                         id="kelas"
                                         class="form-select"
+                                        autocomplete="off"
                                         required>
 
                                     <option value="">
