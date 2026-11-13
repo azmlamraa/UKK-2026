@@ -60,8 +60,8 @@ $hasil = mysqli_query($koneksi, $sql);
                             <thead class="table-dark">
                                 <tr>
                                     <th>No </th>
-                                    <th>NIS</th>
-                                    <th>NISN</th>
+                                    <th>Nis</th>
+                                    <th>Nisn</th>
                                     <th>Nama Siswa</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Tanggal Lahir</th>

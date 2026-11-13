@@ -48,7 +48,7 @@ include 'config/koneksi.php';
                           method="POST">
 
                        <div class="mb-3">
-                       <label for="nip" class="form-label">NIP</label>
+                       <label for="nip" class="form-label">Nip</label>
                        <input type="text"
                               name="nip"
                               id="nip"

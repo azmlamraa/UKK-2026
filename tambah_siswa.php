@@ -44,7 +44,7 @@ include 'includes/cek_session.php';
                           id="formTambahSiswa">
 
                         <div class="mb-3">
-                            <label class="form-label">NIS</label>
+                            <label class="form-label">Nis</label>
                             <input type="text"
                                    name="nis"
                                    maxlength="10"
@@ -54,7 +54,7 @@ include 'includes/cek_session.php';
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">NISN</label>
+                            <label class="form-label">Nisn</label>
                             <input type="text"
                                    name="nisn"
                                    maxlength="10"
