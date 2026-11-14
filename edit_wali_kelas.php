@@ -1,4 +1,3 @@
-
 <?php
 // edit_wali_kelas.php
 include 'includes/cek_session.php';
@@ -23,16 +22,31 @@ mysqli_stmt_execute($stmt);
 $hasil = mysqli_stmt_get_result($stmt);
 $data = mysqli_fetch_assoc($hasil);
 
+mysqli_stmt_close($stmt);
+
 if (!$data) {
     exit('Data wali kelas tidak ditemukan.');
 }
 
-// Ambil data pilihan
-$tahun = mysqli_query(
+// Tahun ajaran: hanya yang aktif.
+// Tahun ajaran milik data ini tetap ikut ditampilkan (walau sudah tidak aktif) agar pilihan lama tidak hilang.
+$tahun_ajaran_lama = (int) ($data['tahun_ajaran_id'] ?? 0);
+
+$stmt_tahun = mysqli_prepare(
     $koneksi,
-    "SELECT id, nama FROM t_tahun_ajaran ORDER BY id DESC"
+    "SELECT id, nama
+     FROM t_tahun_ajaran
+     WHERE status_aktif = 1
+        OR id = ?
+     ORDER BY id DESC"
 );
 
+mysqli_stmt_bind_param($stmt_tahun, "i", $tahun_ajaran_lama);
+mysqli_stmt_execute($stmt_tahun);
+
+$tahun = mysqli_stmt_get_result($stmt_tahun);
+
+// Ambil data pilihan lainnya
 $kelas = mysqli_query(
     $koneksi,
     "SELECT id, nama FROM t_kelas ORDER BY nama ASC"
@@ -43,7 +57,6 @@ $guru = mysqli_query(
     "SELECT id, nama FROM t_guru ORDER BY nama ASC"
 );
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 
@@ -98,7 +111,7 @@ $guru = mysqli_query(
                                     class="form-select"
                                     required>
 
-                                <option value="">Pilih Tahun Ajaran</option>
+                                <option value="">-- Pilih Tahun Ajaran --</option>
 
                                 <?php while ($row = mysqli_fetch_assoc($tahun)) { ?>
                                     <option
@@ -125,16 +138,11 @@ $guru = mysqli_query(
                                     class="form-select"
                                     required>
 
-                                <option value="">Pilih Kelas</option>
+                                 <option value="">-- Pilih Kelas --</option>
 
                                 <?php while ($row = mysqli_fetch_assoc($kelas)) { ?>
-                                    <option
-                                        value="<?= htmlspecialchars((string)$row['id']) ?>"
-                                        <?= $row['id'] == $data['kelas_id']
-                                            ? 'selected' : '' ?>>
-
+                                    <option value="<?= htmlspecialchars((string)$row['id']) ?>">
                                         <?= htmlspecialchars($row['nama']) ?>
-
                                     </option>
                                 <?php } ?>
 
@@ -152,7 +160,7 @@ $guru = mysqli_query(
                                     class="form-select"
                                     required>
 
-                                <option value="">Pilih Guru</option>
+                                <option value="">-- Pilih Guru --</option>
 
                                 <?php while ($row = mysqli_fetch_assoc($guru)) { ?>
                                     <option
@@ -178,7 +186,7 @@ $guru = mysqli_query(
                                    name="tanggal_mulai"
                                    id="tanggal_mulai"
                                    class="form-control"
-                                   value="<?= htmlspecialchars($data['tanggal_mulai']) ?>"
+                                   value="<?= htmlspecialchars((string) $data['tanggal_mulai']) ?>"
                                    required>
                         </div>
 
@@ -192,7 +200,7 @@ $guru = mysqli_query(
                                    name="tanggal_selesai"
                                    id="tanggal_selesai"
                                    class="form-control"
-                                   value="<?= htmlspecialchars($data['tanggal_selesai']) ?>"
+                                   value="<?= htmlspecialchars((string) $data['tanggal_selesai']) ?>"
                                    required>
                         </div>
 
