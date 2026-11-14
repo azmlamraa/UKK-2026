@@ -1,5 +1,7 @@
+
 <?php
 // kelola_siswa.php
+
 include 'includes/cek_session.php';
 include 'config/koneksi.php';
 
@@ -16,11 +18,9 @@ $hasil = mysqli_query($koneksi, $sql);
 
     <title>Kelola Siswa</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- DataTables Bootstrap 5 -->
     <link href="https://cdn.datatables.net/2.3.4/css/dataTables.bootstrap5.min.css"
           rel="stylesheet">
 </head>
@@ -32,13 +32,12 @@ $hasil = mysqli_query($koneksi, $sql);
 
         <?php include 'layout/sidebar.php'; ?>
 
-        <!-- KONTEN -->
         <main class="col-md-9 col-lg-10 p-4">
 
             <h1 class="mb-4">Kelola Siswa</h1>
 
-            <!-- Tombol Navigasi -->
             <div class="mb-3">
+
                 <a href="dashboard.php" class="btn btn-secondary">
                     Kembali ke Dashboard
                 </a>
@@ -46,10 +45,11 @@ $hasil = mysqli_query($koneksi, $sql);
                 <a href="tambah_siswa.php" class="btn btn-primary">
                     + Tambah Siswa
                 </a>
+
             </div>
 
-            <!-- TABEL DATA SISWA -->
             <div class="card shadow-sm">
+
                 <div class="card-body">
 
                     <div class="table-responsive">
@@ -59,9 +59,9 @@ $hasil = mysqli_query($koneksi, $sql);
 
                             <thead class="table-dark">
                                 <tr>
-                                    <th>No </th>
-                                    <th>Nis</th>
-                                    <th>Nisn</th>
+                                    <th>No</th>
+                                    <th>NIS</th>
+                                    <th>NISN</th>
                                     <th>Nama Siswa</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Tanggal Lahir</th>
@@ -76,7 +76,7 @@ $hasil = mysqli_query($koneksi, $sql);
                             <?php while ($row = mysqli_fetch_assoc($hasil)) { ?>
 
                                 <tr>
-                                <!--Nomor urut otomatis-->
+
                                     <td></td>
 
                                     <td>
@@ -112,7 +112,8 @@ $hasil = mysqli_query($koneksi, $sql);
                                     </td>
 
                                     <td>
-                                        <?php if ($row['status_aktif'] == 1) { ?>
+
+                                        <?php if ((int)$row['status_aktif'] === 1) { ?>
 
                                             <span class="badge bg-success">
                                                 Aktif
@@ -125,9 +126,11 @@ $hasil = mysqli_query($koneksi, $sql);
                                             </span>
 
                                         <?php } ?>
+
                                     </td>
 
                                     <td>
+
                                         <div class="d-flex gap-2">
 
                                             <a href="edit_siswa.php?id=<?= urlencode($row['id']) ?>"
@@ -142,7 +145,9 @@ $hasil = mysqli_query($koneksi, $sql);
                                             </a>
 
                                         </div>
+
                                     </td>
+
                                 </tr>
 
                             <?php } ?>
@@ -154,25 +159,24 @@ $hasil = mysqli_query($koneksi, $sql);
                     </div>
 
                 </div>
+
             </div>
 
         </main>
+
     </div>
 </div>
 
-<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<!-- DataTables -->
 <script src="https://cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
 
-<!-- DataTables Bootstrap 5 -->
 <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+
 $(document).ready(function () {
 
-    // Inisialisasi DataTables
     var tabel = $('#tabelSiswa').DataTable({
 
         language: {
@@ -204,34 +208,27 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false
             }
-        ]
+        ],
+
+        drawCallback: function () {
+
+            var api = this.api();
+
+            api.column(0, { page: 'current' })
+                .nodes()
+                .each(function (cell, i) {
+
+                    cell.textContent = api.page.info().start + i + 1;
+
+                });
+
+        }
 
     });
-
-      // Fungsi nomor urut otomatis
-    function nomorUrut() {
-
-        var informasi = tabel.page.info();
-
-        tabel
-            .column(0, {
-                page: 'current'
-            })
-            .nodes()
-            .each(function (cell, i) {
-
-                cell.textContent = informasi.start + i + 1;
-
-            });
-    }
-
-    // Perbarui nomor urut setiap tabel berubah
-    tabel.on('draw.dt', function () {
-        nomorUrut();
-    });
-
-    // Tampilkan nomor urut saat pertama kali dibuka
-    nomorUrut();
 
 });
+
 </script>
+
+</body>
+</html>

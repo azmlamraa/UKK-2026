@@ -1,11 +1,12 @@
-
 <?php
 // edit_siswa.php
 include 'includes/cek_session.php';
 include 'config/koneksi.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    die("ID siswa tidak valid.");
+    $_SESSION['pesan_error'] = "ID siswa tidak valid.";
+    header("Location: kelola_siswa.php");
+    exit;
 }
 
 $id = (int) $_GET['id'];
@@ -14,25 +15,26 @@ $stmt = mysqli_prepare($koneksi, "SELECT * FROM t_siswa WHERE id = ?");
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
 
-$hasil = mysqli_stmt_get_result($stmt);
-$data = mysqli_fetch_assoc($hasil);
+$data = mysqli_stmt_get_result($stmt);
+$siswa = mysqli_fetch_assoc($data);
 
-if (!$data) {
-    die("Data siswa tidak ditemukan.");
+mysqli_stmt_close($stmt);
+
+if (!$siswa) {
+    $_SESSION['pesan_error'] = "Data siswa tidak ditemukan.";
+    header("Location: kelola_siswa.php");
+    exit;
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Siswa</title>
 
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -40,43 +42,38 @@ if (!$data) {
 <div class="container-fluid">
     <div class="row">
 
-        <!-- SIDEBAR -->
         <?php include 'layout/sidebar.php'; ?>
 
-        <!-- KONTEN UTAMA -->
         <main class="col-md-9 col-lg-10 p-4">
 
-            <h1 class="mb-4">Edit Siswa</h1>
+            <h2 class="mb-4">Edit Siswa</h2>
 
             <div class="card shadow-sm">
+
                 <div class="card-header bg-primary text-white">
                     Form Edit Siswa
                 </div>
 
                 <div class="card-body">
 
-                    <form action="proses_edit_siswa.php"
-                          method="POST"
-                          id="formEditSiswa">
+                    <form action="proses_edit_siswa.php" method="POST">
 
                         <input type="hidden" name="id"
-                               value="<?= htmlspecialchars($data['id']) ?>">
+                               value="<?= (int)$siswa['id']; ?>">
 
                         <div class="mb-3">
                             <label class="form-label">NIS</label>
                             <input type="text" name="nis"
-                                   maxlength="10"
-                                   class="form-control"
-                                   value="<?= htmlspecialchars($data['nis']) ?>"
+                                   class="form-control" maxlength="10"
+                                   value="<?= htmlspecialchars($siswa['nis'] ?? ''); ?>"
                                    required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">NISN</label>
                             <input type="text" name="nisn"
-                                   maxlength="10"
-                                   class="form-control"
-                                   value="<?= htmlspecialchars($data['nisn']) ?>"
+                                   class="form-control" maxlength="10"
+                                   value="<?= htmlspecialchars($siswa['nisn'] ?? ''); ?>"
                                    required>
                         </div>
 
@@ -84,7 +81,7 @@ if (!$data) {
                             <label class="form-label">Nama Siswa</label>
                             <input type="text" name="nama"
                                    class="form-control"
-                                   value="<?= htmlspecialchars($data['nama']) ?>"
+                                   value="<?= htmlspecialchars($siswa['nama'] ?? ''); ?>"
                                    required>
                         </div>
 
@@ -97,8 +94,9 @@ if (!$data) {
                                        name="jenis_kelamin"
                                        id="laki"
                                        value="L"
-                                       <?= $data['jenis_kelamin'] == 'L' ? 'checked' : '' ?>
+                                       <?= $siswa['jenis_kelamin'] == 'L' ? 'checked' : ''; ?>
                                        required>
+
                                 <label class="form-check-label" for="laki">
                                     Laki-laki
                                 </label>
@@ -110,8 +108,9 @@ if (!$data) {
                                        name="jenis_kelamin"
                                        id="perempuan"
                                        value="P"
-                                       <?= $data['jenis_kelamin'] == 'P' ? 'checked' : '' ?>
+                                       <?= $siswa['jenis_kelamin'] == 'P' ? 'checked' : ''; ?>
                                        required>
+
                                 <label class="form-check-label" for="perempuan">
                                     Perempuan
                                 </label>
@@ -120,45 +119,49 @@ if (!$data) {
 
                         <div class="mb-3">
                             <label class="form-label">Tanggal Lahir</label>
+
                             <input type="date"
                                    name="tanggal_lahir"
                                    class="form-control"
-                                   value="<?= htmlspecialchars($data['tanggal_lahir']) ?>"
+                                   min="2000-01-01"
+                                   max="<?= date('Y-m-d'); ?>"
+                                   value="<?= htmlspecialchars($siswa['tanggal_lahir'] ?? ''); ?>"
                                    required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Alamat</label>
+
                             <textarea name="alamat"
                                       class="form-control"
-                                      rows="4"
-                                      required><?= htmlspecialchars($data['alamat']) ?></textarea>
+                                      required><?= htmlspecialchars($siswa['alamat'] ?? ''); ?></textarea>
                         </div>
 
-
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <label class="form-label">Status Aktif</label>
+
                             <select name="status_aktif"
                                     class="form-select"
                                     required>
+
                                 <option value="1"
-                                    <?= $data['status_aktif'] == 1 ? 'selected' : '' ?>>
+                                    <?= $siswa['status_aktif'] == 1 ? 'selected' : ''; ?>>
                                     Aktif
                                 </option>
 
                                 <option value="0"
-                                    <?= $data['status_aktif'] == 0 ? 'selected' : '' ?>>
+                                    <?= $siswa['status_aktif'] == 0 ? 'selected' : ''; ?>>
                                     Tidak Aktif
                                 </option>
+
                             </select>
                         </div>
 
                         <button type="submit" class="btn btn-primary">
-                            Update Siswa
+                            Simpan Perubahan
                         </button>
 
-                        <a href="kelola_siswa.php"
-                           class="btn btn-secondary">
+                        <a href="kelola_siswa.php" class="btn btn-secondary">
                             Kembali
                         </a>
 
@@ -170,26 +173,6 @@ if (!$data) {
         </main>
     </div>
 </div>
-
-<script>
-document.getElementById('formEditSiswa').addEventListener('submit', function(e) {
-    const password = document.getElementById('password').value;
-    const konfirmasi = document.getElementById('konfirmasi_password').value;
-
-    if (password !== konfirmasi) {
-        e.preventDefault();
-        alert('Password dan konfirmasi password tidak sama!');
-        return;
-    }
-
-    if ((password === '') !== (konfirmasi === '')) {
-        e.preventDefault();
-        alert('Isi password dan konfirmasi password, atau kosongkan keduanya.');
-    }
-});
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
